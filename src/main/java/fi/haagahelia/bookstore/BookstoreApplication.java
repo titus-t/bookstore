@@ -9,6 +9,11 @@ import org.springframework.context.annotation.Bean;
 import fi.haagahelia.bookstore.domain.Book;
 import fi.haagahelia.bookstore.domain.BookRepository;
 
+import fi.haagahelia.bookstore.domain.Category;
+import fi.haagahelia.bookstore.domain.CategoryRepository;
+
+
+
 import org.slf4j.Logger;
 
 @SpringBootApplication
@@ -21,24 +26,37 @@ public class BookstoreApplication {
 	}
 
 	@Bean
-	public CommandLineRunner BookDemo(BookRepository repository) {
+	public CommandLineRunner BookDemo(BookRepository repository, CategoryRepository crepository) {
 		return (args) -> {
 			log.info("save a couple of books");
+
+			Category Category1 = new Category("Fantasy");
+			Category Category2 = new Category("Romance");
+			Category Category3 = new Category("Scifi");
+			
+			
+			crepository.save(Category1);
+			crepository.save(Category2);
+			crepository.save(Category3);
+			
 
 			repository.save(new Book(
     "And Then There Were None",
     "Agatha Christie",
 	1939,
-    "9780062073488"
+    "9780062073488",
+	Category1
 	
     
 ));
 
 repository.save(new Book(
+	
     "The Lord of the Rings",
     "J. R. R. Tolkien",
 	1954,
-    "9780618640157"
+    "9780618640157",
+	Category2
     
 ));
 
@@ -46,7 +64,9 @@ repository.save(new Book(
     "Harry Potter and the Philosopher's Stone",
     "J. K. Rowling",
 	1997,
-    "9780747532699"
+    "9780747532699",
+	Category3
+
     
 ));
 
