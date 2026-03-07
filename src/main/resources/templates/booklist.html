@@ -1,12 +1,27 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"> 
+
+
 <head>
     <title>Bookstore</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link type="text/css" rel="stylesheet" href= "/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"** /></head>
+<link type="text/css" rel="stylesheet" href= "/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"* /></head>
 <body>
 
-    <h1>Books</h1>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin:15px;">
+        
+        <h1 style="margin: 0;">Books</h1>
+
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <span>Welcome: <strong sec:authentication="name">User</strong></span>
+            
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+                <input type="submit" value="Sign Out" class="btn btn-sm btn-outline-danger"/>
+            </form>
+        </div>
+
+    </div>
 
 
 
@@ -17,6 +32,7 @@
         <th>Publication year</th>
         <th>ISBN</th>
 		<th>Category</th>
+		<th sec:authorize="hasRole('ADMIN')"> </th>
 		<th></th>
 		
     </tr>
@@ -26,10 +42,10 @@
         <td th:text="${book.author}"></td>
         <td th:text="${book.publicationYear}"></td>
         <td th:text="${book.isbn}"></td>
-		<td th:text="${book.category.name}"></td> 
+		<td th:text="${book.category?.name}"></td> 
 
-		<td><a th:href="@{/delete/{id}(id=${book.id})}" class="btn btn-danger">Delete</a>
-			<a th:href="@{/edit/{id}(id=${book.id})}">Edit</a> 
+		<td sec:authorize="hasRole('ADMIN')"><a th:href="@{/delete/{id}(id=${book.id})}" class="btn btn-danger">Delete</a>
+			<a th:href="@{/edit/{id}(id=${book.id})}" class="btn btn-primary" >Edit</a> 
 		</td> 
 		
     </tr>
