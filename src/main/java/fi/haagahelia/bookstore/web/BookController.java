@@ -57,10 +57,10 @@ public String editBook(@PathVariable("id")Long bookId, Model model) {
 	return "editbook";
 }
 
-@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/delete/{id}")
-    public String deleteStudent(@PathVariable("id") Long studentId, Model model) {
-    	repository.deleteById(studentId);
+    public String deleteBook(@PathVariable("id") Long bookId, Model model) {
+    	repository.deleteById(bookId);
         return "redirect:../booklist";
     }
 }
